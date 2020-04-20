@@ -75,5 +75,63 @@
 - `shasum PACKAGE_NAME` calculates the checksum for a downloaded file
 - `ip addr` displays information on each of a system's network interfaces
 
+## Chapter 3. Remote connectivity: Safely accessing networked machines
+- An *encryption key* is a small file containing a random sequence of characters
+- The key can be applied as part of an encryption algorithm to convert plain-text, readable data into total gibberish
+- Using the key on the encrypted version of the file converts the gibberish back to its original form
+- The SSH network protocol enables secure communication by encrypting data packets before transmission and decrypting them at the other end
+- You can for a process to automatically load on system startup using `systemctl enable PROCESS_NAME` or to not load on startup `systemctl disable PROCESS_NAME`
+- Configuration files for most programs can be found in the `/etc/` directory
+- An alternative to SSH password authentication is to create a special key pair and then copy the public half of the pair to the remote host
+- Copy the public key to the host machine - `cat .ssh/id_rsa.pub ssh ubuntu@10.0.3.142 "cat >> .ssh/authorized_keys"`
+- Specify which key pair to use for a session - `ssh -i .ssh/mykey.pem ubuntu@10.0.3.142`
+- The SCP program copies files using the SSH protocol for file transfer
+- Purpose-built program : `ssh-copy-id`
+- *X11 forwarding* allows you to load a host machine-based program in the desktop of your client
+- *Software* is programming code containing instructions to control computer hardware on behalf of human users
+- A *Process* is an instance of a running software program
+- An *operating system* is a tool for organizing and managing those instances/processes to effectively use a computer's hardware resources
+- *init* is the first process to wake up and get everything else going when a Linux system boots
+- `ps` displays information about active processes, The `-e` flag returns all the processes from all parent shells back up to init
+- `pstree -p` visualizes the parent and child processes
+- Nearly all Linux distributions use the same process manager: *systemd*. It's a replacement for `/sbin/init`
+- The *d* stands for *daemon*, a background system process
+- The `systemctl` command is a tool for process management
+
+**Summary**
+- Encrypted connections are a critical part of all networked communications. SSH is the industry standard.
+- Enable password-free SSH acces by sharing the public key of a key pair
+- The OpenSSH package also supports secure file copying and remote graphics
+- Processed are managed by *systemd* through the `systemctl` tool for most modern Linux distributions
+- Pipe data between commands using `|` and filter streaming data with `grep`
+
+**Key Terms**
+- A *password* is a string of regular characters. A *passphrase* can include spaces and punctuation
+- *RSA* is a popular encryption algorithm
+- *X11 forwarding* allows graphic programs to run over a remote connection
+- A Linux *process* is all the ongoing activity that's associated with a single running program
+- A *shell* is a terminal environment that provides a command-line interpreter to allow a user to execute commands
+- A shell, for all intents and purposes, also a process. A *parent shell* is an initial environment where new child shells can be launched
+
+**Security Best Practices**
+- Always encrypt remote login sessions running over a public network
+- Avoid relying on passwords alone
+- Key-based, passwordess SSH sessions are preferable
+- Never transfer files across public networks in plain text
+
+**Command Line Review**
+- `dpkg -s PACKAGE_NAME` - checks the status of an APT-based software package
+- `systemctl status PROCESS_NAME` - checks the status of a system process
+- `systemctl start PROCESS_NAME` - starts a service
+- `ip addr` - lists all the network interfaces on a computer
+- `ssh-keygen` - generates a new pair of SSH keys
+- `cat .ssh/id_rsa.pub ssh ubuntu@10.0.3.142 "cat >> .ssh/authorized_keys"` - copies a local key to a remote machine
+- `ssh-copy-id -i .ssh/id_rsa.pub ubuntu@10.0.3.142` - safely copies encryptions keys to a remote machine
+- `ssh -i .ssh/mykey.pem ubuntu@10.0.3.142` - specifies a particular key pair
+- `scp myfile ubuntu@10.0.3.142:/home/ubuntu/myfile` - safely copies a local file to a remote computer
+- `ssh -X ubuntu@10.0.3.142` - allows you to log in to a remote host for a graphics-enabled session.
+- `ps -ef | grep init` - displays all currently running system processes and filters results using the string init
+- `pstree -p` - displays all currently running system processes in a visual tree format
+
 ## Attribution
 Linux in Action by David Clinton, August 2018 - ISBN 9781617294938 
