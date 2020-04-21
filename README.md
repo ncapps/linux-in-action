@@ -133,5 +133,59 @@
 - `ps -ef | grep init` - displays all currently running system processes and filters results using the string init
 - `pstree -p` - displays all currently running system processes in a visual tree format
 
+## Chapter 4. Archive management: Backing up or copying entire file systems
+- Archive files and file systems using `tar`
+- `c` flag instructs `tar` to create a new archive
+- `v` sets the screen output to verbose
+- `f` points to the filename that will be given to the archive
+- `z` tells the gzip program to compress the archive
+- `x` for extract
+- Using dot (`.`) instead of asterik (`*`) will include hidden files
+- Use the `chmod` tool to change a file's permissions
+- File permissions - Read = 4, Write = 2, Execute = 1
+- Use `chown` to update the file owner and group
+- Archive and extract files using `sudo` to maintain file permissions
+- Be very careful with the `dd` command
+- Synchronize archives with `rsync`
+- The goal is to measure the value of your data against these questions:
+  1. How often should you create new archives, how long will you retain old copies?
+  2. How many layers of validation will you build into your backup process?
+  3. How many concurrent copies of your data will you maintain?
+  4. How important is maintaining geographically remote archives?
+
+**Summary**
+- The `tar` command is generally used for archiving full or partial file systems, whereas `dd` is more suited for imaging partitions
+- Adding compression to an archive not only saves space on storage devices, but also bandwidth during a network transfer
+- Directories containing pseudo file systems usually don't need backing up
+- You can incorporate the transfer of an archive into the command that generates it, optionally avoding any need to save the archive locally
+- You should try to preserve the ownership and permissions attributes of objects restored from an archive
+- You can use `dd` to wipe old disks
+- You can incrementally synchronize archives using `rsync`, reducing the time and network resources needed for ongoing backups
+
+**Key Terms**
+- An *archive* is a specially formatted file in which file system objects are bundled
+- *Compression* is a process for reducing the disk space used by a file through the application of a compression algorithm
+- An *image* is an archive containing the files and directory structure necessary to re-create a source file system in a new location
+- *Permissions* are the attributes assigned to an object that determines who may use it and how
+- *Ownership* is the owner and group that have authority over an object
+- A *group* is an account used to manage permissions for multiple users
+
+**Security Best Practices**
+- Create an automated, reliable, tested, and secure recurring process for backing up all of your important data
+- Where appropriate, separate file systems with sensitive data by placing them on their own partitions and mounting them to the file system at boot time
+- Ensure that file permissions are accurate, and allow only the least access necessary
+- Never assume the data on an old storage drive is truly deleted
+
+**Command Line Review**
+- `df -h` displays all currently active partitions with sizes
+- `tar czvf archivename.tar.gz /home/myuser/*.txt` creates a compressed archive from text files in a specified directory tree
+- `split -b 1G archivename.tar.gz archivename.tar.gz.part` splits a large file into smaller files of a set maximum size
+- `cat archivename.tar.gz.part* > archivename.tar.gz` re-creates the archive by reading each of the parts in sequence and then redirect the output to a new file
+- `find /var/www/ -iname "*.mp4" -exec tar -rvf videos.tar {} \;` finds files meeting a set criteria and streams their names to `tar` to include in an archive
+- `chmod o-r /bin/zcat` removes read permissions for others
+- `dd if=/dev/sda2 of=/home/username/partition2.img` creates an image of the sda2 partition and saves it to your home directory
+- `dd if=/dev/urandom of=/dev/sda1` overwrites a partition with random characters to obscure the old data
+
+
 ## Attribution
 Linux in Action by David Clinton, August 2018 - ISBN 9781617294938 
