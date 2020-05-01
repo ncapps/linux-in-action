@@ -186,6 +186,43 @@
 - `dd if=/dev/sda2 of=/home/username/partition2.img` creates an image of the sda2 partition and saves it to your home directory
 - `dd if=/dev/urandom of=/dev/sda1` overwrites a partition with random characters to obscure the old data
 
+## Chapter 5. Automated administration: Configuring automated offsite backups
+- Regular and reliable system backups are absolutely *critical*
+- *shebang line* - `#!/bin/sh`
+- exit status code of 0 signifies the command was successful
+- `cp -p` preserves the source file's original ownership attributes and timestamp
+- `adduser USERNAME` to add a user, create a home directory, and set the default password
+- AWS's `aws s3 sync` works a lot like `rsync`
+- Place files in a `/etc/cron.*` directory for recurring execution
+- *anacrontab* is where you schedule operations to run at a set time after each system boot
+
+**Summary**
+- Bash scripts can automate administrative tasks
+- Linux keeps user account and authentication information in plain text files (named passwd, group, shadow, and gshadow) in the `/etc` directory
+- You can back up local data to an S3 bucket. The `aws s3 sync` works very similar to `rsync`
+- Copying an executable script to one of the `/etc/cron` directories causes it to be run at the appropriate interval
+- Adding a directive to the anacrontab file executes commands relative to system boots, rather than absolute times
+- systemd timers can be set to run based on both absolute time and in reaction to system events, like changes to hardware states
+
+**Key Terms**
+- All Linux commands output *exit codes* upon completion: 0 represents a successful execution. All positive integers can be a set by a program to represent various failed states
+- A *bucket* is an AWS resource that works very similar to a directory on an operating system
+
+**Security Best Practices**
+- Lock down your system accounts, i.e., syslog, to prevent their being used for remote logins
+- Include off-site backups in your security planning, which adds another layer of data reliability
+- Protect access keys, passwords, and encryption key pairs from public exposure
+
+**Command Line Review**
+- `#!/bin/bash` - tells Linux which shell interpreter you're going to be using for a script
+- `||` inserts an *or* condition into a script. Think of this as either "the command to the left is successful" or "execute the command to the right"
+- `&&` inserts an *and* condition into a script. Think of this as "if the command to the left is successful" and "execute the command to the right"
+- `test -f /etc/filename` tests for the existence of the specified file or directory name
+- `chmod +x upgrade.sh` makes a scrpt file executable
+- `aws s3 sync /home/username/dir2backup s3://linux-bucket3040` synchronizes the contents of a local directory with the specified S3 bucket
+- `21 5 * * 1 root apt update && apt upgrade` - a cron directive, executes two apt commands at 5:21 each morning
+- `NOW=$(date + "%m_%d_%Y")` assigns the current date to a script variable
+- `systemctl start site-backup.timer` activates a systemd system timer
 
 ## Attribution
 Linux in Action by David Clinton, August 2018 - ISBN 9781617294938 
