@@ -224,5 +224,25 @@
 - `NOW=$(date + "%m_%d_%Y")` assigns the current date to a script variable
 - `systemctl start site-backup.timer` activates a systemd system timer
 
+## Chapter 6. Emergency tools: Building a system recovery device
+- **GNU GRand Unified Bootloader** - code an OS uses to bring itself to life when it's powered on
+- Linux boot sequence
+  1. System power up
+  2. BIOS or UEFI - identifies hardware environment
+  3. Mounts MBR - master boot record partition
+  4. GRUB - displays menu and executes an image kernel
+  5. Kernel - mounts root partition
+  6. Hand-off to init or systemd
+- A *partition* is really metadata pointing to the location on a physical disk occupied by a file system
+
+**Summary**
+- Linux recovery modes provide access to administration tools useful for repairing systems that won't boot normally
+- Live-boot drives allow you to boot your choice of Linux distros independently of the file systems on a computer's phyiscal drive
+- Purpose-build distros like SystemRescueCd are lightweight versions of Linux that come preinstalled with a full range of rescue tools
+ - Damaged partitions can sometimes be restored using tools like TestDisk
+ - Data from damaged partitions can sometimes be recovered using tools like ddrescue and PhotoRec
+ - File systems can be mounted and administered using a virtual process called `chroot`
+
+
 ## Attribution
 Linux in Action by David Clinton, August 2018 - ISBN 9781617294938 
