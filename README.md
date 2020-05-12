@@ -243,6 +243,64 @@
  - Data from damaged partitions can sometimes be recovered using tools like ddrescue and PhotoRec
  - File systems can be mounted and administered using a virtual process called `chroot`
 
+ **Key Terms**
+ - *GRUB* is a bootloader that manages the images to be used in the Linux boot process
+ - A *hash* (checksum) is a cryptographically generated value that can be checked against a master copy to confirm an image's authenticity
+ - A partition's *Master Boot Record (MBR)* for a CD will be different than for a USB, additional steps are required for creating live-boot USBs
+ - The tool `chroot` opens virtual root shells within the mounted file systems
+
+ **Security Best Practices**
+ - Always confirm that downloaded images are authentic by checking their hashes. Avoid downloading from unencrypted websites.
+ - Carefully consider where or not to encrypt the data at rest on your system drives. Balance accessibility with security
+ - Enforce the use of password vaults and single sign-on services
+
+ **Command-Line Review**
+ - `sha256sum systemrescuecd-x86-5.0.2.iso` - calculates the SHA256 checksum of a .ISO file
+ - `isohybrid systemrescuecd-x86-5.0.2.iso` -  adds a USB-friendly MBR to a live-boot image
+ - `dd bs=4M if=systemrescuecd-x86-5.0.2.iso of=/dev/sdb && sync` - writes a live-boot image to an empty drive
+ - `mount /dev/sdc1 /run/temp-directory` - mounts a partition to a directory on the live file system
+ - `ddrescue -d /dev/sdc1 /run/usb-mount/sdc1-backup.img /run/usb-mount/ sdc1-backup.logfile` - saves files on a damaged partition to an image named sdc1-backup.img and writes events to a log file.
+ - `chroot /run/mountdir/` - opens a root shell on a file system
+
+ ## Chapter 7. Web servers: Building a MediaWiki server
+ - *Content Management System (CMS)* is an application designed as a framework for the creation and administration of digital content
+ - A *web server* is a software running on a computer that allows locally hosted resources to be viewed and consumed by visitors to a website.
+ - *Dynamic* websites are generated server-side
+ - An Apache web server exposes HTTP-based resources to external clients and can coordinate internal services
+ - A *database engine* is software for managing relational database data using SQL syntax
+ - %S2&NkU8v&ho
+ - A *network port* is nothing more than a way to identify a particular server resource to network users. Applications can be told to listen for traffic coming to the server when a predetermined port is specified.
+
+ **Summary**
+ - Web server packages like Apache coordinate connectivity between system resources such as databases and files, and expose website resources to clients
+ - Available software package versions can vary between Linux distributions, and the release version you need can depedn on your specific project
+ - Package depedencies can be met with help of search tools and metadata provided by package management systems (like APT and Yum)
+ - Applications will often need access to a database engine and will require authentication information
+
+ **Key Terms**
+ - A *wiki* is a tool for creating and managing distributed, collaborative projects
+ - A *content management system (CMS)* is an application designed to make creating, sharing, and editing digital content
+ - A *web server* is software designed to safely and reliably expose server resurces to remote clients
+ - *DocumentRoot* is the Apache setting determining where on the file system the web server will look for website files
+ - *Structured Query Language (SQL)* is a syntax for managing data in relational databases
+ - *Package dependencies* are programs or extensions required for proper function of installed applications
+
+ **Security Best Practices**
+ - Ensure your system firewall settings permit appropriate client access to system resources and block everything else
+ - Remove root access to your database
+ - Never leave a file running `phpinfo` exposed on a public-facing website
+
+ **Command Line Review**
+ - `apt install lamp-server^` - installs all the elements of a LAMP server (Ubuntu)
+ - `systemctl enable httpd` - launches Apache on a CentOS machine at system boot
+ - `firewall-cmd --add-service=http --permanent` - permits HTTP browser traffic into a CentOS system
+ - `mysql_secure_installation` - resets your root password and tightens database security
+ - `mysql -u root -p` - logs in to MySQL or MariaDB as the root user
+ - `CREATE DATABASE newdbname` - creates a new database in MySQL/MariaDB
+ - `yum search php- | grep mysql` - searches for available packages related to PHP (CentOS)
+ - `apt search mbstring` - searches for available packages related to mulibyte string encoding
+
+
 
 ## Attribution
 Linux in Action by David Clinton, August 2018 - ISBN 9781617294938 
