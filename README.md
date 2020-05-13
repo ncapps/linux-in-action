@@ -300,6 +300,28 @@
  - `yum search php- | grep mysql` - searches for available packages related to PHP (CentOS)
  - `apt search mbstring` - searches for available packages related to mulibyte string encoding
 
+## Chapter 8. Networked file sharing: Building a Nextcloud file-sharing server
+- Unpacking a .tar.bz2 archive requires the `xjf` arguments
+
+**Summary**
+- Planning your data storage strategy requires balancing between cost and ease of use on one side versus security and control on the other
+- Ubuntu's snaps are a distribution-neutral package management system that also provide secure, read-only isolation run environments
+- In order to know how to route incoming HTTP traffic, Apache reads either multiple host definitions in a single .conf file or multiple host-definition files
+- Web servers generally provide resources to visitors using a special web server user account to balance access against system security
+
+**Key Terms**
+- A *snap* is a packaged application that can, using `snapd`, be autonomously installed on most Linux distributions
+- A `*symbolic link* is a file system object representing a file or directory in a different location. Symbolic links in the /etc/apache2/sites-enabled/ directory point to files in /etc/apache2/sites-available/ that are read by Apache when it starts
+- *Archives* can be compressed using the BZ2 algorithm as an alternative to gzip or zip
+
+**Security Best Practices**
+- Make sure that all public-facing files from your website are owned by the www-data user rather than the root user
+- Keep database resources used by separate applications isolated by creating separate user accounts
+
+**Command-Line Review**
+- `a2endmod rewrite` enables the rewrite module so Apache can edit URS as they move between a client and server
+- `chown -R www-data:www-data /var/www/nextcloud/` changes the user and group ownership of all website files to the www-data user
+- `ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf` creates a symbolic link the /etc/apache2/sites-enabled directory pointing to the nextcloud.conf file in /etc/apache2/sites-available/
 
 
 ## Attribution
