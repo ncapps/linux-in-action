@@ -100,7 +100,7 @@
 
 **Summary**
 - Encrypted connections are a critical part of all networked communications. SSH is the industry standard.
-- Enable password-free SSH acces by sharing the public key of a key pair
+- Enable password-free SSH access by sharing the public key of a key pair
 - The OpenSSH package also supports secure file copying and remote graphics
 - Processed are managed by *systemd* through the `systemctl` tool for most modern Linux distributions
 - Pipe data between commands using `|` and filter streaming data with `grep`
@@ -322,6 +322,21 @@
 - `a2endmod rewrite` enables the rewrite module so Apache can edit URS as they move between a client and server
 - `chown -R www-data:www-data /var/www/nextcloud/` changes the user and group ownership of all website files to the www-data user
 - `ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf` creates a symbolic link the /etc/apache2/sites-enabled directory pointing to the nextcloud.conf file in /etc/apache2/sites-available/
+
+## Chapter 9. Securing your web server
+- *Hypertext Transfer Protocol (HTTTP)* coordinates the exchange of resources between web clients and web servers over a network
+- The HTTPS variation of the protocol ensures that data transfers are securely encrypted using the *Transport Layer Security (TLS)* protocol
+- *Transmission Control Protocol (TCP)* is used for a network data transfer, packets being transferred across a network are checked for errors when received and, if necessary, resent.
+- *User Datagram Protocol (UDP)* will complete more quickly than TCP because they don't include error correction
+- Allowing root login via SSH is not a good idea and can be forbidden in the `/etc/ssh/sshd.conf` file through the `PermitRootLogin` setting
+- Unless specified otherwise in Vagrantfile, the IP address of the host (the computer running Vagrant) from the perspective of the guest (the VM being run by Vagrant) is: 10.0.2.2
+- The advantage of nonstandard ports is that they let you implement *security through obscurity*
+- **Network Ports**
+  - 65,535 available network ports
+  - 1 - 1023 are designated and well-known (SSH 22, HTTP 80). Don't use well-known ports for your own applications
+  - 1024-49151 are *registered*, meaning companies have requested that specific ports in this range be set aside for their applications even if they're not universally adopted. (1812 RADIUS, 3306 MySQL)
+  - 49152-65535 are *unregistered* and are considered dynamic. These ports are available for any temporary or ad hoc use, particularly on private networks.
+  
 
 
 ## Attribution
